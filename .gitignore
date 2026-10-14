@@ -7,3 +7,4 @@ DevSecOps
 terraform
 Jenkinsfile
 kustomize
+node_modules/

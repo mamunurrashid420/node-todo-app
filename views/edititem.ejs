@@ -1,28 +1,46 @@
 <!DOCTYPE html>
-
-<html>
-
-    <head>
-        <title>Edit <%- todo %></title>
-        <style>
-            a {
-                text-decoration: none;
-                color: black;
-            }
-
-        </style>
-    </head>
-
-    <body>
-        <h1>Edit <%- todo %>:</h1>
-        <form action="/todo/edit/<%= todoIdx %>" method="post">
-            <p>
-                <label for="editTodo">Change to:</label>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080b16">
+    <title>Edit task — Focus</title>
+    <style>
+        :root { color-scheme:dark; --bg:#080b16; --line:rgba(167,184,255,.14); --muted:#8993ae; --text:#f3f5ff; --mint:#63f2c2; }
+        *{box-sizing:border-box} body{display:grid;min-height:100vh;margin:0;padding:24px;place-items:center;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 12% 8%,rgba(76,88,190,.2),transparent 36%),radial-gradient(ellipse at 88% 80%,rgba(16,171,148,.13),transparent 32%),var(--bg)}
+        #particles-js{position:fixed;inset:0;z-index:0;pointer-events:none}.particles-js-canvas-el{position:absolute;inset:0;width:100%;height:100%}
+        main{position:relative;z-index:1;width:min(100%,570px)}.topline{display:flex;align-items:center;gap:10px;margin:0 0 22px 4px;color:#bac3df;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}.brand-mark{display:grid;width:28px;height:28px;place-items:center;color:#08121a;background:linear-gradient(135deg,var(--mint),#75caff);border-radius:9px;box-shadow:0 0 24px #63f2c244}
+        .card{padding:clamp(26px,6vw,44px);border:1px solid var(--line);border-radius:25px;background:linear-gradient(145deg,rgba(22,29,53,.94),rgba(12,16,31,.9));box-shadow:0 30px 90px #0007,inset 0 1px #ffffff0b;backdrop-filter:blur(18px)}.eyebrow{margin:0 0 11px;color:var(--mint);font-size:12px;font-weight:750;letter-spacing:.14em;text-transform:uppercase}h1{margin:0;font-size:clamp(30px,7vw,43px);line-height:1.1;letter-spacing:-.05em}.description{margin:13px 0 28px;color:var(--muted);line-height:1.6}
+        label{display:block;margin:0 0 9px;color:#c8d0e7;font-size:13px;font-weight:700}.edit-form input[type=text]{width:100%;height:52px;padding:0 15px;border:1px solid var(--line);border-radius:13px;outline:none;color:var(--text);background:#080c19a8;font:inherit;transition:border-color .2s,box-shadow .2s}.edit-form input[type=text]:focus{border-color:#63f2c288;box-shadow:0 0 0 3px #63f2c21a}.edit-form input::placeholder{color:#737e99}.buttons{display:flex;gap:10px;margin-top:22px}.buttons a,.buttons button{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:0 19px;border:1px solid var(--line);border-radius:12px;color:#cbd3eb;background:#ffffff06;font-family:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;transition:.2s}.buttons button{border:0;color:#08141a;background:linear-gradient(120deg,var(--mint),#83dbff);box-shadow:0 8px 22px #53e8be25}.buttons a:hover{background:#ffffff10}.buttons button:hover{filter:brightness(1.08);transform:translateY(-1px)}.buttons a:focus-visible,.buttons button:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+        @media(max-width:500px){body{padding:18px}.card{border-radius:20px}.buttons>*{flex:1}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+    </style>
+</head>
+<body>
+    <div id="particles-js" aria-hidden="true"></div>
+    <main>
+        <div class="topline"><span class="brand-mark" aria-hidden="true">✦</span> Focus / Personal workspace</div>
+        <section class="card">
+            <p class="eyebrow">A small adjustment</p>
+            <h1>Edit your task</h1>
+            <p class="description">Update the wording and keep moving toward what matters.</p>
+            <form class="edit-form" action="/todo/edit/<%= todoIdx %>" method="post">
                 <input type="hidden" name="_method" value="PUT">
-                <input type="text" name="editTodo" id="editTodo" autofocus placeholder="<%- todo %>" />
-                <input type="submit" value="Save" />
-            </p>
-        </form>
-    </body>
-
+                <label for="editTodo">Task description</label>
+                <input type="text" name="editTodo" id="editTodo" value="<%- todo %>" required autofocus>
+                <div class="buttons"><a href="/todo">Cancel</a><button type="submit">Save changes <span aria-hidden="true">↗</span></button></div>
+            </form>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.getElementById('particles-js').style.display = 'none';
+        } else if (window.particlesJS) {
+            particlesJS('particles-js', {
+                particles: { number: { value: 48, density: { enable: true, value_area: 1000 } }, color: { value: ['#63f2c2', '#9d8cff', '#70cfff'] }, shape: { type: 'circle' }, opacity: { value: 0.32, random: true }, size: { value: 2, random: true }, line_linked: { enable: true, distance: 145, color: '#8999d8', opacity: 0.16, width: 1 }, move: { enable: true, speed: 0.7, direction: 'none', random: true, straight: false, out_mode: 'out' } },
+                interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: false }, resize: true }, modes: { grab: { distance: 130, line_linked: { opacity: 0.28 } } } }, retina_detect: true
+            });
+        }
+    </script>
+</body>
 </html>

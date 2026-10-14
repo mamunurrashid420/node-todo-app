@@ -1,111 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Todo List APP test</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                color: #333;
-                margin: 0;
-                padding: 0;
-            }
-
-            h1 {
-                background-color: #4CAF50;
-                color: white;
-                margin: 0;
-                padding: 20px;
-                text-align: center;
-            }
-
-            ul {
-                list-style: none;
-                padding: 0;
-            }
-
-            ul li {
-                background: #fff;
-                border: 1px solid #ddd;
-                margin-bottom: 10px;
-                padding: 10px;
-                position: relative;
-            }
-
-            ul li a {
-                color: #333;
-                text-decoration: none;
-                font-weight: bold;
-            }
-
-            ul li a:hover {
-                color: #4CAF50;
-            }
-
-            .delete-btn {
-                color: red;
-                position: absolute;
-                right: 10px;
-                top: 10px;
-            }
-
-            .edit-btn {
-                color: #FFC107;
-                position: absolute;
-                right: 40px;
-                top: 10px;
-            }
-
-            form {
-                background: #fff;
-                padding: 20px;
-                margin-top: 20px;
-            }
-
-            label {
-                display: block;
-                margin-bottom: 10px;
-            }
-
-            input[type="text"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
-            }
-
-            input[type="submit"] {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 10px 20px;
-                cursor: pointer;
-            }
-
-            input[type="submit"]:hover {
-                background-color: #45a049;
-            }
-        </style>
-    </head>
-
-    <body>
-        <h1>Hello Junoon Batch 8 (Jenkins), Write your plan on Learning Jenkins</h1>
-        <ul>
-            <% todolist.forEach(function(todo, index) { %>
-            <li>
-                <a href="/todo/delete/<%= index %>" class="delete-btn">✘</a>
-                <a href="/todo/<%= index %>" class="edit-btn">✎</a>
-                <%- todo %>
-            </li>
-            <% }); %>
-        </ul>
-
-        <form action="/todo/add/" method="post">
-            <p>
-                <label for="newtodo">What should I do?</label>
-                <input type="text" name="newtodo" id="newtodo" autofocus />
-                <input type="submit" value="Add" />
-            </p>
-        </form>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#080b16">
+    <title>Focus — your task space</title>
+    <style>
+        :root { color-scheme: dark; --bg:#080b16; --panel:rgba(17,23,42,.82); --line:rgba(167,184,255,.14); --muted:#8993ae; --text:#f3f5ff; --mint:#63f2c2; --violet:#9d8cff; }
+        * { box-sizing:border-box; }
+        body { margin:0; min-height:100vh; padding:64px 20px; color:var(--text); font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:radial-gradient(ellipse at 12% 8%,rgba(76,88,190,.2),transparent 36%),radial-gradient(ellipse at 88% 80%,rgba(16,171,148,.13),transparent 32%),var(--bg); }
+        #particles-js { position:fixed; inset:0; z-index:0; pointer-events:none; }
+        .particles-js-canvas-el { position:absolute; inset:0; width:100%; height:100%; }
+        main { position:relative; z-index:1; width:min(100%,690px); margin:0 auto; }
+        .topline { display:flex; align-items:center; gap:10px; margin:0 0 26px 4px; color:#bac3df; font-size:12px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+        .brand-mark { display:grid; width:28px; height:28px; place-items:center; color:#08121a; background:linear-gradient(135deg,var(--mint),#75caff); border-radius:9px; box-shadow:0 0 24px #63f2c244; }
+        .card { overflow:hidden; padding:clamp(24px,6vw,48px); border:1px solid var(--line); border-radius:26px; background:linear-gradient(145deg,rgba(22,29,53,.92),rgba(12,16,31,.88)); box-shadow:0 30px 90px #0007, inset 0 1px #ffffff0b; backdrop-filter:blur(18px); }
+        .eyebrow { margin:0 0 12px; color:var(--mint); font-size:12px; font-weight:750; letter-spacing:.14em; text-transform:uppercase; }
+        h1 { margin:0; font-size:clamp(32px,7vw,52px); line-height:1.06; letter-spacing:-.055em; }
+        .intro { margin:14px 0 30px; color:var(--muted); line-height:1.65; }
+        .section-head { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:0 0 13px; color:#c8d0e7; font-size:13px; font-weight:700; }
+        .count { color:var(--muted); font-size:12px; font-weight:600; }
+        .task-list { display:grid; gap:9px; margin:0; padding:0; list-style:none; }
+        .task { display:flex; align-items:center; gap:12px; min-height:58px; padding:10px 12px 10px 16px; border:1px solid var(--line); border-radius:14px; background:#ffffff05; transition:border-color .2s,background .2s,transform .2s; }
+        .task:hover { transform:translateY(-1px); border-color:#63f2c255; background:#ffffff09; }
+        .task-dot { flex:none; width:9px; height:9px; border:2px solid #65718f; border-radius:50%; }
+        .task-text { flex:1; min-width:0; overflow-wrap:anywhere; color:#e8ebf8; line-height:1.45; }
+        .actions { display:flex; flex:none; gap:7px; }
+        .action { display:grid; width:34px; height:34px; place-items:center; border:1px solid transparent; border-radius:10px; color:#aeb8d2; text-decoration:none; transition:.2s; }
+        .action:hover { border-color:var(--line); background:#ffffff0b; color:var(--mint); }
+        .action.delete:hover { color:#ff829b; }
+        .empty { padding:22px; border:1px dashed #ffffff24; border-radius:14px; color:var(--muted); text-align:center; line-height:1.6; }
+        .add-form { display:flex; gap:10px; margin-top:27px; }
+        .add-form input[type=text], .edit-form input[type=text] { flex:1; min-width:0; height:50px; padding:0 15px; border:1px solid var(--line); border-radius:13px; outline:none; color:var(--text); background:#080c19a8; font:inherit; transition:border-color .2s,box-shadow .2s; }
+        input[type=text]::placeholder { color:#737e99; }
+        input[type=text]:focus { border-color:#63f2c288; box-shadow:0 0 0 3px #63f2c21a; }
+        button { flex:none; min-height:50px; padding:0 21px; border:0; border-radius:13px; color:#08141a; background:linear-gradient(120deg,var(--mint),#83dbff); font:700 14px inherit; font-family:inherit; font-size:14px; font-weight:750; cursor:pointer; box-shadow:0 8px 22px #53e8be25; transition:transform .2s,filter .2s; }
+        button:hover { transform:translateY(-1px); filter:brightness(1.08); }
+        button:focus-visible, a:focus-visible { outline:2px solid var(--mint); outline-offset:3px; }
+        .footnote { margin:20px 0 0; color:#727d98; font-size:12px; text-align:center; }
+        @media(max-width:520px) { body{padding:30px 14px}.card{border-radius:20px}.add-form{flex-direction:column}.add-form button{width:100%} }
+        @media(prefers-reduced-motion:reduce) { *,*::before,*::after{scroll-behavior:auto!important;transition:none!important} }
+    </style>
+</head>
+<body>
+    <div id="particles-js" aria-hidden="true"></div>
+    <main>
+        <div class="topline"><span class="brand-mark" aria-hidden="true">✦</span> Focus / Personal workspace</div>
+        <section class="card" aria-labelledby="page-title">
+            <p class="eyebrow">Make room for what matters</p>
+            <h1 id="page-title">A little more<br>focus, every day.</h1>
+            <p class="intro">Capture your next step and keep your momentum going.</p>
+            <div class="section-head"><span>Your list</span><span class="count"><%= todolist.length %> <%= todolist.length === 1 ? 'task' : 'tasks' %></span></div>
+            <% if (todolist.length) { %>
+            <ul class="task-list">
+                <% todolist.forEach(function(todo, index) { %>
+                <li class="task"><span class="task-dot" aria-hidden="true"></span><span class="task-text"><%- todo %></span><span class="actions"><a href="/todo/<%= index %>" class="action" aria-label="Edit task" title="Edit">✎</a><a href="/todo/delete/<%= index %>" class="action delete" aria-label="Delete task" title="Delete">×</a></span></li>
+                <% }); %>
+            </ul>
+            <% } else { %>
+            <div class="empty">Your list is clear. Add one small task to get started.</div>
+            <% } %>
+            <form class="add-form" action="/todo/add/" method="post">
+                <input type="text" name="newtodo" id="newtodo" placeholder="What would you like to get done?" aria-label="New task" required autofocus>
+                <button type="submit">Add task <span aria-hidden="true">↗</span></button>
+            </form>
+        </section>
+        <p class="footnote">One step at a time. You’ve got this.</p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.getElementById('particles-js').style.display = 'none';
+        } else if (window.particlesJS) {
+            particlesJS('particles-js', {
+                particles: { number: { value: 48, density: { enable: true, value_area: 1000 } }, color: { value: ['#63f2c2', '#9d8cff', '#70cfff'] }, shape: { type: 'circle' }, opacity: { value: 0.32, random: true }, size: { value: 2, random: true }, line_linked: { enable: true, distance: 145, color: '#8999d8', opacity: 0.16, width: 1 }, move: { enable: true, speed: 0.7, direction: 'none', random: true, straight: false, out_mode: 'out' } },
+                interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: false }, resize: true }, modes: { grab: { distance: 130, line_linked: { opacity: 0.28 } } } }, retina_detect: true
+            });
+        }
+    </script>
+</body>
 </html>
